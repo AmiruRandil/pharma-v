@@ -170,6 +170,54 @@ final class Prescription
     }
 
     /**
+     * Lists recent prescription history with optional filters.
+     *
+     * @param array<string, mixed> $filters History filter values.
+     * @return array<int, array<string, mixed>>
+     */
+    public static function history(array $filters = []): array
+    {
+        $conditions = [];
+        $params = [];
+
+        $customerId = (int) ($filters['customer_id'] ?? 0);
+        if ($customerId > 0) {
+            $conditions[] = 'p.customer_id = :customer_id';
+            $params['customer_id'] = $customerId;
+        }
+
+        $medicationId = (int) ($filters['medication_id'] ?? 0);
+        if ($medicationId > 0) {
+            $conditions[] = 'p.medication_id = :medication_id';
+            $params['medication_id'] = $medicationId;
+        }
+
+        $from = trim((string) ($filters['from'] ?? ''));
+        if ($from !== '' && self::isDate($from)) {
+            $conditions[] = 'p.prescribed_date >= :from_date';
+            $params['from_date'] = $from;
+        }
+
+        $to = trim((string) ($filters['to'] ?? ''));
+        if ($to !== '' && self::isDate($to)) {
+            $conditions[] = 'p.prescribed_date <= :to_date';
+            $params['to_date'] = $to;
+        }
+
+        $sql = self::baseReportSql();
+        if ($conditions !== []) {
+            $sql .= ' WHERE ' . implode(' AND ', $conditions);
+        }
+        $sql .= ' ORDER BY p.dispensed_date DESC, p.id DESC LIMIT 100';
+
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Reports prescriptions dispensed between dates.
      *
      * @param string $from Start date.

@@ -33,9 +33,33 @@ function requireAuth(): void
     }
 }
 
+/**
+ * Validates ISO date strings.
+ *
+ * @param string $date Date string.
+ * @return bool
+ */
+function validDate(string $date): bool
+{
+    $parsed = DateTime::createFromFormat('Y-m-d', $date);
+
+    return $parsed instanceof DateTime && $parsed->format('Y-m-d') === $date;
+}
+
 requireAuth();
 
 try {
+    if (($_GET['action'] ?? '') === 'history' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+        foreach (['from', 'to'] as $dateField) {
+            $date = trim((string) ($_GET[$dateField] ?? ''));
+            if ($date !== '' && !validDate($date)) {
+                respond(['success' => false, 'message' => 'History date filters must be valid YYYY-MM-DD dates.'], 422);
+            }
+        }
+
+        respond(['success' => true, 'data' => Prescription::history($_GET)]);
+    }
+
     if (($_GET['action'] ?? '') === 'dispense' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $body = json_decode((string) file_get_contents('php://input'), true) ?: [];
         $result = Prescription::dispense($body, $_SESSION['user']);
