@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Provides a singleton PDO connection to the pms_db MySQL database.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 

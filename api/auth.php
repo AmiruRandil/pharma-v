@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Purpose: Provides JSON login and logout endpoints for staff authentication.
- * Author: Pharma V Team
- * Version: 1.0
- */
-
 declare(strict_types=1);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -81,6 +75,4 @@ try {
         'line'    => $exception->getLine()
     ]);
     exit;
-//    error_log('Auth API error: ' . $exception->getMessage());
-//    respond(['success' => false, 'message' => 'Authentication service unavailable.'], 500);
 }
