@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Exposes authenticated inventory listing, lookup, and stock CRUD endpoints.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 
@@ -62,7 +57,7 @@ try {
     if ($action === 'get') {
         $item = Inventory::getById((int) ($_GET['id'] ?? 0));
         $item ? respond(['success' => true, 'data' => $item]) : respond(['success' => false, 'message' => 'Inventory item not found.'], 404);
-    }
+}
 
     if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $body = json_decode((string) file_get_contents('php://input'), true) ?: [];

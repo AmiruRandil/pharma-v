@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Provides medication catalogue CRUD operations for PMS API endpoints.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 

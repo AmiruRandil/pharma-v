@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Encapsulates customer CRUD, lookup, and customer summary operations.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Manages pharmacy operational alerts and acknowledgement workflow.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Purpose: Handles stock listing, stock CRUD, and inventory risk metrics.
- * Author: Pharma V Team
- * Version: 1.0
- */
 
 declare(strict_types=1);
 
